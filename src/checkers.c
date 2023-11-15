@@ -6,7 +6,7 @@
 /*   By: digil-pa <digil-pa@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 17:36:35 by digil-pa          #+#    #+#             */
-/*   Updated: 2023/11/14 19:07:27 by digil-pa         ###   ########.fr       */
+/*   Updated: 2023/11/15 12:16:57 by digil-pa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	checker(t_table *f)
 			if (now >= f->philo[i].last_meal + f->data->time_to_die)
 			{
 				pthread_mutez_unlock(f->data->food);
-				philo_kill(f, i);
+				philo_die(f, i);
 			}
 			else
 				pthred_mutex_unlock(f->data->food);
@@ -38,4 +38,39 @@ void	checker(t_table *f)
 		if (f->data->times_must_eat != -1)
 			philo_full(f);
 	}
+}
+
+void	philo_die(t_table *f, int i)
+{
+	time_t	time;
+
+	time = get_time() - f->philo->data->start_time;
+	if (f->data->dead || f->data->full)
+		return ;
+	pthread_mutex_lock(f->data->life);
+	f->data->dead = 1;
+	pthread_mutex_unlock(f->data->life);
+	usleep(10);
+	printf("\033[0;90m%ld \033[0;9m%d \033[0;0m%s", time, i + 1, DIE);
+}
+
+void	philo_full(t_table *f)
+{
+	int	i;
+
+	i = 0;
+	while (i < f->data->nbr_of_philo)
+	{
+		pthread_mutex_lock(f->data->food);
+		if (f->philo[i].eat_count < f->data->times_must_eat)
+		{
+			pthread_mutex_unlock(f->data->food);
+			return ;
+		}
+		pthread_mutex_unlock(f->data->food);
+		i++;
+	}
+	pthread_mutex_lock(f->data->food);
+	f->data->full = 1;
+	pthread_mutex_unlock(f->data->food);
 }

@@ -6,7 +6,7 @@
 /*   By: digil-pa <digil-pa@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 17:52:19 by digil-pa          #+#    #+#             */
-/*   Updated: 2023/11/14 19:00:17 by digil-pa         ###   ########.fr       */
+/*   Updated: 2023/11/15 12:25:32 by digil-pa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_atoi(char *str)
 			sign *= -1;
 		str++;
 	}
-	while (*str >== '0' && *str <= '9')
+	while (*str >= '0' && *str <= '9')
 	{
 		res = (res * 10) + (*str++ - '0');
 		if (res * sign < INT_MIN || res * sign > INT_MAX)
