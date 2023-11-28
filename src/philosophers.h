@@ -6,7 +6,7 @@
 /*   By: digil-pa <digil-pa@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 17:36:31 by digil-pa          #+#    #+#             */
-/*   Updated: 2023/11/14 17:49:32 by digil-pa         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:21:21 by digil-pa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define SLEEP	"is sleeping\n"
 # define THINK	"is thinking\n"
 # define DIE	"died\n"
+
+/*--------------------------Structs---------------------------*/
 
 typedef struct s_data
 {
@@ -58,5 +60,20 @@ typedef struct s_table
 	t_philo		*philo;
 }	t_table;
 
+/*-------------------------Prototypes-------------------------*/
+
+void		checker(t_table *f);
+void		philo_die(t_table *f, int i);
+void		philo_full(t_table *f);
+time_t		get_time(void);
+void		print_status(t_philo *philo, char *str);
+int			ft_atoi(char *str);
+int			check_num(char *av);
+int			check_input(int ac, char **av);
+void		routine(void *arg);
+void		ciclo(t_philo *philo);
+void		forks(t_philo *philo, int action);
+void		actions(t_philo *philo, int action);
+void		wair_or_die(t_philo *philo, time_t time);
 
 #endif
