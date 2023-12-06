@@ -6,7 +6,7 @@
 /*   By: digil-pa <digil-pa@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:27:51 by digil-pa          #+#    #+#             */
-/*   Updated: 2023/12/06 13:12:10 by digil-pa         ###   ########.fr       */
+/*   Updated: 2023/12/06 15:42:04 by digil-pa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	forks(t_philo *philo, int action)
 			pthread_mutex_lock(next_philo->fork);
 			return ;
 		}
-		pthread_mutex_unlock(philo->fork);
-		pthread_mutex_unlock(next_philo->fork);
+		pthread_mutex_lock(next_philo->fork);
+		pthread_mutex_lock(philo->fork);
 	}
 	else if (action == 2)
 	{
@@ -93,6 +93,7 @@ void	ciclo(t_philo *philo)
 		{
 			pthread_mutex_unlock(philo->data->life);
 			pthread_mutex_unlock(philo->data->food);
+			return ;
 		}
 		pthread_mutex_unlock(philo->data->life);
 		pthread_mutex_unlock(philo->data->food);
