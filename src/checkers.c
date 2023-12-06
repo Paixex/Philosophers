@@ -6,7 +6,7 @@
 /*   By: digil-pa <digil-pa@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 17:36:35 by digil-pa          #+#    #+#             */
-/*   Updated: 2023/11/15 12:16:57 by digil-pa         ###   ########.fr       */
+/*   Updated: 2023/12/06 15:28:41 by digil-pa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	checker(t_table *f)
 			pthread_mutex_lock(f->data->food);
 			if (now >= f->philo[i].last_meal + f->data->time_to_die)
 			{
-				pthread_mutez_unlock(f->data->food);
+				pthread_mutex_unlock(f->data->food);
 				philo_die(f, i);
 			}
 			else
-				pthred_mutex_unlock(f->data->food);
+				pthread_mutex_unlock(f->data->food);
 			i++;
 		}
 		if (f->data->times_must_eat != -1)

@@ -6,13 +6,13 @@
 /*   By: digil-pa <digil-pa@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 12:27:51 by digil-pa          #+#    #+#             */
-/*   Updated: 2023/11/15 15:16:09 by digil-pa         ###   ########.fr       */
+/*   Updated: 2023/12/06 13:12:10 by digil-pa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	wair_or_die(t_philo *philo, time_t time)
+void	wait_or_die(t_philo *philo, time_t time)
 {
 	time_t	start;
 	time_t	now;
@@ -47,7 +47,7 @@ void	actions(t_philo *philo, int action)
 		pthread_mutex_unlock(philo->data->food);
 		wait_or_die(philo, philo->data->time_to_eat);
 	}
-	else if (actions == 2)
+	else if (action == 2)
 	{
 		print_status(philo, SLEEP);
 		wait_or_die(philo, philo->data->time_to_sleep);

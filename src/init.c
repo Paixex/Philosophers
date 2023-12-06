@@ -6,7 +6,7 @@
 /*   By: digil-pa <digil-pa@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 14:26:40 by digil-pa          #+#    #+#             */
-/*   Updated: 2023/11/28 17:01:04 by digil-pa         ###   ########.fr       */
+/*   Updated: 2023/12/06 15:19:25 by digil-pa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	data_init(t_table *f, int ac, char **av)
 	f->data->times_must_eat = -1;
 	if (ac == 6)
 		f->data->times_must_eat = ft_atoi(av[5]);
-	if (!f->data->nbr_of_philo <= 0 || !f->data->time_to_die <= 0 
-			|| !f->data->time_to_eat <= 0 || !f->data->time_to_sleep <= 0)
+	if (f->data->nbr_of_philo <= 0 || f->data->time_to_die <= 0 
+			|| f->data->time_to_eat <= 0 || f->data->time_to_sleep <= 0)
 	{
 		free (f->data);
 		return (0);
@@ -36,7 +36,7 @@ int	data_init(t_table *f, int ac, char **av)
 	f->data->food = malloc(sizeof(pthread_mutex_t));
 	if (!f->data->food || !f->data->life
 			|| pthread_mutex_init(f->data->food,NULL)
-			|| pthread_mutex_inti(f->data->life))
+			|| pthread_mutex_init(f->data->life, NULL))
 			return (0);
 	return (1);
 }
@@ -46,6 +46,7 @@ int	philo_init(t_table *f)
 	int	i;
 
 	i = -1;
+	f->philo = malloc(sizeof(t_philo) * f->data->nbr_of_philo);
 	if (!f->philo)
 		return (0);
 	while (++i < f->data->nbr_of_philo)
@@ -69,7 +70,7 @@ void	free_philo(t_table *f)
 	
 	i = -1;
 	if (!f->philo)
-		return (0);
+		return ;
 	while (++i < f->data->nbr_of_philo)
 	{
 		if (f->philo[i].fork)
@@ -84,16 +85,27 @@ void	free_philo(t_table *f)
 		free(f->data->life);
 		pthread_mutex_destroy(f->data->food);
 		free(f->data->food);
+		free(f->data);
 		f->data = NULL;
 	}
 	if (f->philo)
 		free (f->philo);
 }
 
-int	init(t_table *f, int ac, char **av)
+int	init_all(t_table *f, int ac, char **av)
 {
 	f->data = 	NULL;
 	f->philo =	NULL;
-	if (!f->data)
+	if (!data_init(f, ac, av))
+		return (0);
+	f->data->start_time = get_time();
+	if (!philo_init(f))
+		return(0);
+	if (!thread_init(f))
+		return (0);
+	if (f->data->nbr_of_philo > 1)
+		checker(f);
+	if (!join_threads(f))
+		return (0);
+	return (1);
 }
-

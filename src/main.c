@@ -1,42 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   threads.c                                          :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: digil-pa <digil-pa@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/28 13:56:08 by digil-pa          #+#    #+#             */
-/*   Updated: 2023/12/06 13:29:01 by digil-pa         ###   ########.fr       */
+/*   Created: 2023/12/06 12:45:21 by digil-pa          #+#    #+#             */
+/*   Updated: 2023/12/06 14:53:30 by digil-pa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	thread_init(t_table *f)
+int	main(int ac, char **av)
 {
-	int	i;
-
-	i = 0;
-	while (i < f->data->nbr_of_philo)
-	{
-		if (pthread_create(&f->philo[i].thread,
-						NULL, (void *)routine, &(f->philo[i])))
-				return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	join_threads(t_table *f)
-{
-	int	i;
+	t_table	f;
 	
-	i = 0;
-	while (i < f->data->nbr_of_philo)
+	if (ac < 5 || ac > 6)
 	{
-		if (pthread_join(f->philo[i].thread, NULL))
-			return (0);
-		i++;
+		printf("Error: Wrong number of arguments\n");
+		return (1);
 	}
-	return (1);
+	if (!check_input(ac, av))
+	{
+		printf("Error: Invalid arguments\n");
+		return (1);
+	}
+	if (!init_all(&f, ac, av))
+	{
+		printf("Error: Initializing arguments\n");
+		free_philo(&f);
+		return (1);
+	}
+	free_philo(&f);
+	return (0);
 }

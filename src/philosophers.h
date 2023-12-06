@@ -6,7 +6,7 @@
 /*   By: digil-pa <digil-pa@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 17:36:31 by digil-pa          #+#    #+#             */
-/*   Updated: 2023/11/22 16:21:21 by digil-pa         ###   ########.fr       */
+/*   Updated: 2023/12/06 13:11:20 by digil-pa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,12 @@ void		routine(void *arg);
 void		ciclo(t_philo *philo);
 void		forks(t_philo *philo, int action);
 void		actions(t_philo *philo, int action);
-void		wair_or_die(t_philo *philo, time_t time);
+void		wait_or_die(t_philo *philo, time_t time);
+int			thread_init(t_table *f);
+int			join_threads(t_table *f);
+int			data_init(t_table *f, int ac, char **av);
+int			philo_init(t_table *f);
+void		free_philo(t_table *f);
+int			init_all(t_table *f, int ac, char **av);
 
 #endif
